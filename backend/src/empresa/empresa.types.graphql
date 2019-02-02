@@ -1,0 +1,73 @@
+scalar Date
+scalar JSON
+
+type Query {
+  findAllEmpresa(criterioBusqueda:CriterioBusquedaFindAll): RespuestaFindEmpresa
+  findWhereOrEmpresa(criterioBusqueda:CriterioBusquedaFindWhereOr!): RespuestaFindEmpresa
+  findOneEmpresaById(id:String): Empresa
+}
+
+type Mutation {
+  createOneEmpresa(nuevoRegistro:CreateEmpresaDto!): EmpresaCreadoOActualizado
+  deleteOneEmpresa(id:String!): RespuestaEliminar
+  updateOneEmpresa(id:String!, registroAActualizar:UpdateEmpresaDto!): EmpresaCreadoOActualizado
+}
+
+
+type Empresa {
+  id: ID
+  createdAt: Date
+  updatedAt: Date
+  # Llenar Tipo
+}
+
+input CreateEmpresaDto {
+  # Llenar Create Dto
+}
+
+input UpdateEmpresaDto {
+  # Llenar Update Dto
+}
+
+input CriterioBusquedaFindAll {
+  skip: Int
+  take: Int
+  where: JSON
+  relations: [String]
+  join: JSON
+  order: JSON
+}
+
+input CriterioBusquedaFindWhereOr {
+  camposABuscar: [CamposABuscar]!
+  skip: Int
+  take: Int
+  relations: [FindWhereRelations]
+}
+
+input CamposABuscar {
+  campo: String!
+  valor: String!
+}
+
+input FindWhereRelations{
+  entidad: String!
+  key: String!
+  query: [CamposABuscar]
+}
+
+type RespuestaEliminar{
+  mensaje:String!
+}
+
+type EmpresaCreadoOActualizado {
+  id: ID
+  createdAt: Date
+  updatedAt: Date
+    # creado o actualizado
+}
+
+type RespuestaFindEmpresa {
+    registros:[Empresa]
+    numero:Int
+}

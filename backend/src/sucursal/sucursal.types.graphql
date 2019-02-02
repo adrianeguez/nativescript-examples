@@ -1,0 +1,73 @@
+scalar Date
+scalar JSON
+
+type Query {
+  findAllSucursal(criterioBusqueda:CriterioBusquedaFindAll): RespuestaFindSucursal
+  findWhereOrSucursal(criterioBusqueda:CriterioBusquedaFindWhereOr!): RespuestaFindSucursal
+  findOneSucursalById(id:String): Sucursal
+}
+
+type Mutation {
+  createOneSucursal(nuevoRegistro:CreateSucursalDto!): SucursalCreadoOActualizado
+  deleteOneSucursal(id:String!): RespuestaEliminar
+  updateOneSucursal(id:String!, registroAActualizar:UpdateSucursalDto!): SucursalCreadoOActualizado
+}
+
+
+type Sucursal {
+  id: ID
+  createdAt: Date
+  updatedAt: Date
+  # Llenar Tipo
+}
+
+input CreateSucursalDto {
+  # Llenar Create Dto
+}
+
+input UpdateSucursalDto {
+  # Llenar Update Dto
+}
+
+input CriterioBusquedaFindAll {
+  skip: Int
+  take: Int
+  where: JSON
+  relations: [String]
+  join: JSON
+  order: JSON
+}
+
+input CriterioBusquedaFindWhereOr {
+  camposABuscar: [CamposABuscar]!
+  skip: Int
+  take: Int
+  relations: [FindWhereRelations]
+}
+
+input CamposABuscar {
+  campo: String!
+  valor: String!
+}
+
+input FindWhereRelations{
+  entidad: String!
+  key: String!
+  query: [CamposABuscar]
+}
+
+type RespuestaEliminar{
+  mensaje:String!
+}
+
+type SucursalCreadoOActualizado {
+  id: ID
+  createdAt: Date
+  updatedAt: Date
+    # creado o actualizado
+}
+
+type RespuestaFindSucursal {
+    registros:[Sucursal]
+    numero:Int
+}
