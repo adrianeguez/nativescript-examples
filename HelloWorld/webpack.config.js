@@ -249,8 +249,6 @@ module.exports = env => {
                 { from: { glob: "fonts/**" } },
                 { from: { glob: "**/*.jpg" } },
                 { from: { glob: "**/*.png" } },
-                { from: { glob: "**/*.json" } },
-                { from: { glob: "**/**/*.json" } },
                 { from: { glob: "assets/*" } },
 
             ], { ignore: [`${relative(appPath, appResourcesFullPath)}/**`] }),

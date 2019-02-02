@@ -8,9 +8,10 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {translateHttpLoader} from "./funciones";
 import {NativeScriptHttpClientModule} from "nativescript-angular/http-client";
 import {TranslateHttpLoader} from "@ngx-translate/http-loader";
+import {NativeScriptCommonModule} from "nativescript-angular/common";
 
 export const createTranslateLoader = (http: HttpClient) => {
-    return new TranslateHttpLoader(http, './i18n', '.json');
+    return new TranslateHttpLoader(http, '/i18n/', '.json');
 };
 
 @NgModule({
@@ -19,7 +20,8 @@ export const createTranslateLoader = (http: HttpClient) => {
     ],
     imports: [
         NativeScriptModule,
-        AppRoutingModule,
+        NativeScriptCommonModule,
+        // AppRoutingModule,
         NativeScriptHttpClientModule,
         TranslateModule.forRoot(
             {
