@@ -7,12 +7,12 @@ import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
     imports: [
-        // NativeScriptCommonModule,
-        // HomeRoutingModule,
-        // TranslateModule.forChild()
+        NativeScriptCommonModule,
+        HomeRoutingModule,
+        TranslateModule.forChild()
     ],
     declarations: [
-        // HomeComponent
+        HomeComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
