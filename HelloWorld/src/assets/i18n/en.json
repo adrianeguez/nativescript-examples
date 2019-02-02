@@ -1,5 +1,9 @@
 {
   "aplicacion":{
     "nombre": "Manticore"
+  },
+  "botones": {
+    "crear-nombre": "Crear {{nombre}}",
+    "crear": "Crear"
   }
 }

@@ -29,6 +29,10 @@ module.exports = env => {
 
     // Default destination inside platforms/<platform>/...
     const dist = resolve(projectRoot, nsWebpack.getAppPath(platform, projectRoot));
+
+
+
+
     const appResourcesPlatformDir = platform === "android" ? "Android" : "iOS";
 
     const {
@@ -85,6 +89,7 @@ module.exports = env => {
         sourceMap: !!sourceMap,
         additionalLazyModuleResources: additionalLazyModuleResources
     });
+
 
     const config = {
         mode: uglify ? "production" : "development",
@@ -232,7 +237,9 @@ module.exports = env => {
             // Define useful constants like TNS_WEBPACK
             new webpack.DefinePlugin({
                 "global.TNS_WEBPACK": "true",
-                "process": undefined,
+                "process.env": {
+                    environment: (env && Object.prototype.hasOwnProperty.call(env, 'environment')) ? JSON.stringify(env.environment) : undefined
+                }
             }),
             // Remove all files from the out dir.
             new CleanWebpackPlugin([`${dist}/**/*`]),
@@ -249,7 +256,7 @@ module.exports = env => {
                 { from: { glob: "fonts/**" } },
                 { from: { glob: "**/*.jpg" } },
                 { from: { glob: "**/*.png" } },
-                { from: { glob: "assets/*" } },
+                { from: { glob: "**/*.json" } },
 
             ], { ignore: [`${relative(appPath, appResourcesFullPath)}/**`] }),
             // Generate a bundle starter script and activate it in package.json

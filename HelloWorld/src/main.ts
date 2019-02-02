@@ -2,6 +2,9 @@
 import { platformNativeScriptDynamic } from "nativescript-angular/platform";
 
 import { AppModule } from "./app/app.module";
+import {overrideColors} from "~/app/logs/override-colors";
+
+overrideColors();
 
 platformNativeScriptDynamic().bootstrapModule(AppModule);
 
