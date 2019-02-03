@@ -2,7 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import * as Platform from "platform";
 import {environment} from "~/environments/environment";
-import {LoggerMlService} from "~/app/logger-service/logger-ml.service";
+import {MlLoggerService} from "@manticore-labs/nativescript";
+
 
 @Component({
     moduleId: module.id,
@@ -11,7 +12,7 @@ import {LoggerMlService} from "~/app/logger-service/logger-ml.service";
 })
 export class AppComponent implements OnInit {
     constructor(private readonly translate: TranslateService,
-                private readonly _log: LoggerMlService) {
+                private readonly _log: MlLoggerService) {
         translate.setDefaultLang('en');
         console.log('Platform ', Platform.device.language);
         // the lang to use, if the lang isn't available, it will use the current loader to get them

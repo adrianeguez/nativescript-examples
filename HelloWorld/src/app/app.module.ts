@@ -8,7 +8,7 @@ import {HttpClient} from "@angular/common/http";
 import {translateHttpLoader} from "./funciones";
 import {NativeScriptHttpClientModule} from "nativescript-angular/http-client";
 import {NativeScriptCommonModule} from "nativescript-angular/common";
-import {LoggerMlModule} from "./logger-service/logger-ml.module";
+import {MlLoggerModule} from "@manticore-labs/nativescript";
 import {environment} from "~/environments/environment";
 
 @NgModule({
@@ -29,7 +29,7 @@ import {environment} from "~/environments/environment";
                 }
             }
         ),
-        LoggerMlModule.forRoot({
+        MlLoggerModule.forRoot({
             produccion: environment.production
         })
     ],
