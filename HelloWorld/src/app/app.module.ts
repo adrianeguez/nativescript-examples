@@ -8,6 +8,8 @@ import {HttpClient} from "@angular/common/http";
 import {translateHttpLoader} from "./funciones";
 import {NativeScriptHttpClientModule} from "nativescript-angular/http-client";
 import {NativeScriptCommonModule} from "nativescript-angular/common";
+import {LoggerMlModule} from "./logger-service/logger-ml.module";
+import {environment} from "~/environments/environment";
 
 @NgModule({
     bootstrap: [
@@ -26,7 +28,10 @@ import {NativeScriptCommonModule} from "nativescript-angular/common";
                     deps: [HttpClient]
                 }
             }
-        )
+        ),
+        LoggerMlModule.forRoot({
+            produccion: environment.production
+        })
     ],
     declarations: [
         AppComponent
