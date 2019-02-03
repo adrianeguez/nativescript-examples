@@ -2,7 +2,7 @@
 import { platformNativeScriptDynamic } from "nativescript-angular/platform";
 
 import { AppModule } from "./app/app.module";
-import {overrideColors} from "~/app/logs/override-colors";
+import {overrideColors} from "~/app/color-logs/override-colors";
 
 overrideColors();
 
