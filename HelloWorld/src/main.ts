@@ -2,8 +2,23 @@
 import { platformNativeScriptDynamic } from "nativescript-angular/platform";
 
 import { AppModule } from "./app/app.module";
-import {overrideColors} from "~/app/color-logs/override-colors";
+import { ios } from "tns-core-modules/application";
 
+
+class MyDelegate extends UIResponder implements UIApplicationDelegate {
+    public static ObjCProtocols = [UIApplicationDelegate];
+
+    applicationDidFinishLaunchingWithOptions(application: UIApplication, launchOptions: NSDictionary<any, any>): boolean {
+        console.log("applicationWillFinishLaunchingWithOptions: " + launchOptions);
+
+        return true;
+    }
+
+    applicationDidBecomeActive(application: UIApplication): void {
+        console.log("applicationDidBecomeActive: " + application)
+    }
+}
+ios.delegate = MyDelegate;
 
 platformNativeScriptDynamic().bootstrapModule(AppModule);
 

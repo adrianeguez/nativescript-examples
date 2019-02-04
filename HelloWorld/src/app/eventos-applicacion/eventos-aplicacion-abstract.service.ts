@@ -76,7 +76,7 @@ export abstract class EventosAplicacionAbstractService {
         this._log.i(`${this.separador} EMPEZANDO A ESCUCHAR EVENTOS ${this.separador}`);
         this.escucharEventosDeAplicacion();
         this.escucharEventosAndroid();
-        
+
     }
 
     escucharEventosDeAplicacion() {
