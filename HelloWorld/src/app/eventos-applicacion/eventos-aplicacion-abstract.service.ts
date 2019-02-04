@@ -1,12 +1,28 @@
 import {
-    displayedEvent, exitEvent, launchEvent, lowMemoryEvent,
-    orientationChangedEvent, resumeEvent, suspendEvent, uncaughtErrorEvent,
-    ApplicationEventData, LaunchEventData, OrientationChangedEventData, UnhandledErrorEventData,
-    on as applicationOn, run as applicationRun
+    displayedEvent,
+    exitEvent,
+    launchEvent,
+    lowMemoryEvent,
+    orientationChangedEvent,
+    resumeEvent,
+    suspendEvent,
+    uncaughtErrorEvent,
+    ApplicationEventData,
+    LaunchEventData,
+    OrientationChangedEventData,
+    UnhandledErrorEventData,
+    on as applicationOn,
+    run as applicationRun,
+    android,
+    AndroidApplication,
+    AndroidActivityBundleEventData,
+    AndroidActivityEventData,
+    AndroidActivityResultEventData,
+    AndroidActivityBackPressedEventData
 } from "tns-core-modules/application";
 import {EventEmitter} from "@angular/core";
 import {NativeApplicationEventEmitter} from "~/app/eventos-applicacion/interfaces/launch-event-emitter";
-
+import {EventAndroid} from "~/app/eventos-applicacion/interfaces/event-android";
 
 export abstract class EventosAplicacionAbstractService {
 
@@ -29,9 +45,27 @@ export abstract class EventosAplicacionAbstractService {
 
     uncaughtErrorEvent = new EventEmitter<NativeApplicationEventEmitter>();
 
+    activityCreatedEvent = new EventEmitter<EventAndroid>();
 
-    constructor(private readonly _log: any, separador?:string) {
-        if(separador){
+    activityDestroyedEvent = new EventEmitter<EventAndroid>();
+
+    activityStartedEvent = new EventEmitter<EventAndroid>();
+
+    activityPausedEvent = new EventEmitter<EventAndroid>();
+
+    activityResumedEvent = new EventEmitter<EventAndroid>();
+
+    activityStoppedEvent = new EventEmitter<EventAndroid>();
+
+    saveActivityStateEvent = new EventEmitter<EventAndroid>();
+
+    activityResultEvent = new EventEmitter<EventAndroid>();
+
+    activityBackPressedEvent = new EventEmitter<EventAndroid>();
+
+
+    constructor(private readonly _log: any, separador?: string) {
+        if (separador) {
             this.separador = separador
         }
         this.escucharEventos();
@@ -40,6 +74,12 @@ export abstract class EventosAplicacionAbstractService {
 
     escucharEventos() {
         this._log.i(`${this.separador} EMPEZANDO A ESCUCHAR EVENTOS ${this.separador}`);
+        this.escucharEventosDeAplicacion();
+        this.escucharEventosAndroid();
+        
+    }
+
+    escucharEventosDeAplicacion() {
         applicationOn(launchEvent, (args: LaunchEventData) => {
             this._log.i(`${this.separador} LAUNCH_EVENT ${this.separador}`);
             this._log.i("For Android applications, args.android is an android.content.Intent class.");
@@ -85,7 +125,7 @@ export abstract class EventosAplicacionAbstractService {
         applicationOn(orientationChangedEvent, (args: OrientationChangedEventData) => {
             this._log.i(`${this.separador} ORIENTATION_CHANGED_EVENT ${this.separador}`);
 
-            this.suspendEvent.emit({
+            this.orientationChangedEvent.emit({
                 iOS: args.ios,
                 android: args.android,
                 args,
@@ -97,7 +137,7 @@ export abstract class EventosAplicacionAbstractService {
             this._log.i(`${this.separador} EXIT_EVENT ${this.separador}`);
             this._log.i("For Android applications, args.android is an android activity class.");
             this._log.i("For iOS applications, args.ios is UIApplication.");
-            this.suspendEvent.emit({
+            this.exitEvent.emit({
                 iOS: args.ios,
                 android: args.android,
                 args
@@ -108,7 +148,7 @@ export abstract class EventosAplicacionAbstractService {
             this._log.w(`${this.separador} LOW_MEMORY_EVENT ${this.separador}`);
             this._log.i("For Android applications, args.android is an android activity class.");
             this._log.i("For iOS applications, args.ios is UIApplication.");
-            this.suspendEvent.emit({
+            this.lowMemoryEvent.emit({
                 iOS: args.ios,
                 android: args.android,
                 args
@@ -117,14 +157,110 @@ export abstract class EventosAplicacionAbstractService {
 
         applicationOn(uncaughtErrorEvent, function (args: UnhandledErrorEventData) {
             this._log.e(`${this.separador} UNCAUGHT_ERROR_EVENT ${this.separador}`);
-            this.suspendEvent.emit({
+            this.uncaughtErrorEvent.emit({
                 iOS: args.ios,
                 android: args.android,
                 args,
                 error: args.error
             });
         });
+    }
 
+    escucharEventosAndroid() {
+        if (android) {
+            android.on(AndroidApplication.activityCreatedEvent, (args: AndroidActivityBundleEventData) => {
+                this._log.i(`${this.separador} ACTIVITY_CREATED_EVENT ${this.separador}`);
+                this.activityCreatedEvent.emit({
+                    eventName: args.eventName,
+                    args,
+                    activity: args.activity,
+                    bundle: args.bundle
+                });
+            });
+
+            android.on(AndroidApplication.activityDestroyedEvent, (args: AndroidActivityEventData) => {
+                this._log.i(`${this.separador} ACTIVITY_DESTROYED_EVENT ${this.separador}`);
+                this.activityDestroyedEvent.emit({
+                    eventName: args.eventName,
+                    args,
+                    activity: args.activity,
+                });
+            });
+
+            android.on(AndroidApplication.activityStartedEvent, (args: AndroidActivityEventData) => {
+                this._log.i(`${this.separador} ACTIVITY_STARTED_EVENT ${this.separador}`);
+                this.activityStartedEvent.emit({
+                    eventName: args.eventName,
+                    args,
+                    activity: args.activity,
+                });
+            });
+
+            android.on(AndroidApplication.activityPausedEvent, (args: AndroidActivityEventData) => {
+                this._log.i(`${this.separador} ACTIVITY_PAUSED_EVENT ${this.separador}`);
+                this.activityPausedEvent.emit({
+                    eventName: args.eventName,
+                    args,
+                    activity: args.activity,
+                });
+            });
+
+            android.on(AndroidApplication.activityResumedEvent, (args: AndroidActivityEventData) => {
+                this._log.i(`${this.separador} ACTIVITY_RESUME_EVENT ${this.separador}`);
+                this.activityResumedEvent.emit({
+                    eventName: args.eventName,
+                    args,
+                    activity: args.activity,
+                });
+            });
+
+            android.on(AndroidApplication.activityStoppedEvent, (args: AndroidActivityEventData) => {
+
+                this._log.i(`${this.separador} ACTIVITY_STOPPED_EVENT ${this.separador}`);
+                this.activityStoppedEvent.emit({
+                    eventName: args.eventName,
+                    args,
+                    activity: args.activity,
+                });
+            });
+
+            android.on(AndroidApplication.saveActivityStateEvent, (args: AndroidActivityBundleEventData) => {
+
+                this._log.i(`${this.separador} SAVE_ACTIVITY_STATE_EVENT ${this.separador}`);
+                this.saveActivityStateEvent.emit({
+                    eventName: args.eventName,
+                    args,
+                    activity: args.activity,
+                    bundle: args.bundle
+                });
+
+            });
+
+            android.on(AndroidApplication.activityResultEvent, (args: AndroidActivityResultEventData) => {
+
+                this._log.i(`${this.separador} ACTIVITY_RESULT_EVENT ${this.separador}`);
+                this.activityResultEvent.emit({
+                    eventName: args.eventName,
+                    args,
+                    activity: args.activity,
+                    intent: args.intent,
+                    requestCode: args.requestCode,
+                    resultCode: args.resultCode,
+                });
+
+            });
+
+            android.on(AndroidApplication.activityBackPressedEvent, (args: AndroidActivityBackPressedEventData) => {
+
+                this._log.i(`${this.separador} ACTIVITY_BACK_PRESSED_EVENT ${this.separador}`);
+                this.activityBackPressedEvent.emit({
+                    eventName: args.eventName,
+                    args,
+                    activity: args.activity,
+                });
+
+            });
+        }
     }
 
 

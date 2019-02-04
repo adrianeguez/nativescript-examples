@@ -10,7 +10,7 @@ import { SucursalModule } from './sucursal/sucursal.module';
         TypeOrmModule.forRoot({
             type: 'mysql',
             host: 'localhost',
-            port: 32771,
+            port: 32769,
             username: 'adrian',
             password: '12345678',
             database: 'nativescript',
