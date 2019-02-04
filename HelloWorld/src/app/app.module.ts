@@ -10,6 +10,7 @@ import {NativeScriptHttpClientModule} from "nativescript-angular/http-client";
 import {NativeScriptCommonModule} from "nativescript-angular/common";
 import {MlLoggerModule} from "@manticore-labs/nativescript";
 import {environment} from "~/environments/environment";
+import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.service";
 
 @NgModule({
     bootstrap: [
@@ -32,6 +33,9 @@ import {environment} from "~/environments/environment";
         MlLoggerModule.forRoot({
             produccion: environment.production
         })
+    ],
+    providers:[
+        EventosAplicacionService
     ],
     declarations: [
         AppComponent

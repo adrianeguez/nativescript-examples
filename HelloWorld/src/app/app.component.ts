@@ -3,6 +3,7 @@ import {TranslateService} from "@ngx-translate/core";
 import * as Platform from "platform";
 import {environment} from "~/environments/environment";
 import {MlLoggerService} from "@manticore-labs/nativescript";
+import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.service";
 
 
 @Component({
@@ -12,7 +13,8 @@ import {MlLoggerService} from "@manticore-labs/nativescript";
 })
 export class AppComponent implements OnInit {
     constructor(private readonly translate: TranslateService,
-                private readonly _log: MlLoggerService) {
+                private readonly _log: MlLoggerService,
+                private readonly _eventosAplicacionService: EventosAplicacionService) {
         translate.setDefaultLang('en');
         console.log('Platform ', Platform.device.language);
         // the lang to use, if the lang isn't available, it will use the current loader to get them
@@ -31,5 +33,7 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         console.log('URL', environment.apiUrl)
+
+
     }
 }
