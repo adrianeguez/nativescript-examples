@@ -2,6 +2,7 @@
 import { platformNativeScriptDynamic } from "nativescript-angular/platform";
 
 import { AppModule } from "./app/app.module";
+
 import { ios } from "tns-core-modules/application";
 
 
@@ -19,7 +20,6 @@ class MyDelegate extends UIResponder implements UIApplicationDelegate {
     }
 }
 ios.delegate = MyDelegate;
-
 platformNativeScriptDynamic().bootstrapModule(AppModule);
 
 

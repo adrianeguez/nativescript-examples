@@ -5,12 +5,13 @@ import {AppRoutingModule} from "./app-routing.module";
 import {AppComponent} from "./app.component";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {HttpClient} from "@angular/common/http";
-import {translateHttpLoader} from "./funciones";
+
 import {NativeScriptHttpClientModule} from "nativescript-angular/http-client";
 import {NativeScriptCommonModule} from "nativescript-angular/common";
-import {MlLoggerModule} from "@manticore-labs/nativescript";
+import {MlLoggerModule, translateHttpLoader} from "@manticore-labs/nativescript";
 import {environment} from "~/environments/environment";
 import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.service";
+import {PlatformEventsService} from "~/app/platform-events/platform-events.service";
 
 @NgModule({
     bootstrap: [
@@ -35,7 +36,8 @@ import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.servi
         })
     ],
     providers:[
-        EventosAplicacionService
+        EventosAplicacionService,
+        PlatformEventsService,
     ],
     declarations: [
         AppComponent
