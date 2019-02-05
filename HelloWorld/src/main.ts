@@ -2,7 +2,6 @@
 import { platformNativeScriptDynamic } from "nativescript-angular/platform";
 
 import { AppModule } from "./app/app.module";
-
 import { ios } from "tns-core-modules/application";
 
 
