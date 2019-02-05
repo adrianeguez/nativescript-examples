@@ -9,7 +9,6 @@ import {NativeScriptCommonModule} from "nativescript-angular/common";
 import {MlLoggerModule, translateHttpLoader} from "@manticore-labs/nativescript";
 import {environment} from "~/environments/environment";
 import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.service";
-import {PlatformEventsService} from "~/app/platform-events/platform-events.service";
 
 @NgModule({
     bootstrap: [
@@ -35,7 +34,6 @@ import {PlatformEventsService} from "~/app/platform-events/platform-events.servi
     ],
     providers:[
         EventosAplicacionService,
-        PlatformEventsService,
     ],
     declarations: [
         AppComponent

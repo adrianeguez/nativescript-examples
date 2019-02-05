@@ -23,10 +23,15 @@ import {
 import {EventEmitter} from "@angular/core";
 import {NativeApplicationEventEmitter} from "~/app/eventos-applicacion/interfaces/launch-event-emitter";
 import {EventAndroid} from "~/app/eventos-applicacion/interfaces/event-android";
+import {ios} from "tns-core-modules/application";
+
+
 
 export abstract class EventosAplicacionAbstractService {
 
     separador = '**********************';
+    separadorAndroid = '----------------------';
+
 
     launchEvent = new EventEmitter<NativeApplicationEventEmitter>();
 
@@ -69,13 +74,17 @@ export abstract class EventosAplicacionAbstractService {
             this.separador = separador
         }
         this.escucharEventos();
-
     }
 
     escucharEventos() {
         this._log.i(`${this.separador} EMPEZANDO A ESCUCHAR EVENTOS ${this.separador}`);
         this.escucharEventosDeAplicacion();
         this.escucharEventosAndroid();
+
+
+
+
+
 
     }
 
@@ -169,7 +178,7 @@ export abstract class EventosAplicacionAbstractService {
     escucharEventosAndroid() {
         if (android) {
             android.on(AndroidApplication.activityCreatedEvent, (args: AndroidActivityBundleEventData) => {
-                this._log.i(`${this.separador} ACTIVITY_CREATED_EVENT ${this.separador}`);
+                this._log.i(`${this.separadorAndroid} ACTIVITY_CREATED_EVENT ${this.separadorAndroid}`);
                 this.activityCreatedEvent.emit({
                     eventName: args.eventName,
                     args,
@@ -179,7 +188,7 @@ export abstract class EventosAplicacionAbstractService {
             });
 
             android.on(AndroidApplication.activityDestroyedEvent, (args: AndroidActivityEventData) => {
-                this._log.i(`${this.separador} ACTIVITY_DESTROYED_EVENT ${this.separador}`);
+                this._log.i(`${this.separadorAndroid} ACTIVITY_DESTROYED_EVENT ${this.separadorAndroid}`);
                 this.activityDestroyedEvent.emit({
                     eventName: args.eventName,
                     args,
@@ -188,7 +197,7 @@ export abstract class EventosAplicacionAbstractService {
             });
 
             android.on(AndroidApplication.activityStartedEvent, (args: AndroidActivityEventData) => {
-                this._log.i(`${this.separador} ACTIVITY_STARTED_EVENT ${this.separador}`);
+                this._log.i(`${this.separadorAndroid} ACTIVITY_STARTED_EVENT ${this.separadorAndroid}`);
                 this.activityStartedEvent.emit({
                     eventName: args.eventName,
                     args,
@@ -197,7 +206,7 @@ export abstract class EventosAplicacionAbstractService {
             });
 
             android.on(AndroidApplication.activityPausedEvent, (args: AndroidActivityEventData) => {
-                this._log.i(`${this.separador} ACTIVITY_PAUSED_EVENT ${this.separador}`);
+                this._log.i(`${this.separadorAndroid} ACTIVITY_PAUSED_EVENT ${this.separadorAndroid}`);
                 this.activityPausedEvent.emit({
                     eventName: args.eventName,
                     args,
@@ -206,7 +215,7 @@ export abstract class EventosAplicacionAbstractService {
             });
 
             android.on(AndroidApplication.activityResumedEvent, (args: AndroidActivityEventData) => {
-                this._log.i(`${this.separador} ACTIVITY_RESUME_EVENT ${this.separador}`);
+                this._log.i(`${this.separadorAndroid} ACTIVITY_RESUME_EVENT ${this.separadorAndroid}`);
                 this.activityResumedEvent.emit({
                     eventName: args.eventName,
                     args,
@@ -216,7 +225,7 @@ export abstract class EventosAplicacionAbstractService {
 
             android.on(AndroidApplication.activityStoppedEvent, (args: AndroidActivityEventData) => {
 
-                this._log.i(`${this.separador} ACTIVITY_STOPPED_EVENT ${this.separador}`);
+                this._log.i(`${this.separadorAndroid} ACTIVITY_STOPPED_EVENT ${this.separadorAndroid}`);
                 this.activityStoppedEvent.emit({
                     eventName: args.eventName,
                     args,
@@ -226,7 +235,7 @@ export abstract class EventosAplicacionAbstractService {
 
             android.on(AndroidApplication.saveActivityStateEvent, (args: AndroidActivityBundleEventData) => {
 
-                this._log.i(`${this.separador} SAVE_ACTIVITY_STATE_EVENT ${this.separador}`);
+                this._log.i(`${this.separadorAndroid} SAVE_ACTIVITY_STATE_EVENT ${this.separadorAndroid}`);
                 this.saveActivityStateEvent.emit({
                     eventName: args.eventName,
                     args,
@@ -238,7 +247,7 @@ export abstract class EventosAplicacionAbstractService {
 
             android.on(AndroidApplication.activityResultEvent, (args: AndroidActivityResultEventData) => {
 
-                this._log.i(`${this.separador} ACTIVITY_RESULT_EVENT ${this.separador}`);
+                this._log.i(`${this.separadorAndroid} ACTIVITY_RESULT_EVENT ${this.separadorAndroid}`);
                 this.activityResultEvent.emit({
                     eventName: args.eventName,
                     args,
@@ -252,7 +261,7 @@ export abstract class EventosAplicacionAbstractService {
 
             android.on(AndroidApplication.activityBackPressedEvent, (args: AndroidActivityBackPressedEventData) => {
 
-                this._log.i(`${this.separador} ACTIVITY_BACK_PRESSED_EVENT ${this.separador}`);
+                this._log.i(`${this.separadorAndroid} ACTIVITY_BACK_PRESSED_EVENT ${this.separadorAndroid}`);
                 this.activityBackPressedEvent.emit({
                     eventName: args.eventName,
                     args,
@@ -265,3 +274,7 @@ export abstract class EventosAplicacionAbstractService {
 
 
 }
+
+
+
+
