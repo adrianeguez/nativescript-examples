@@ -1,6 +1,6 @@
 {
   "aplicacion":{
-    "nombre": "Manticore"
+    "nombre": "Manticore Labs"
   },
   "botones": {
     "crear-nombre": "Crear {{nombre}}",

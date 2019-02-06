@@ -6,6 +6,5 @@ import {MlLoggerService} from "@manticore-labs/nativescript";
 export class EventosAplicacionService extends EventosAplicacionAbstractService {
     constructor(private readonly log: MlLoggerService) {
         super(log);
-
     }
 }
