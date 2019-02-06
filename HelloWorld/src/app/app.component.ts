@@ -4,7 +4,7 @@ import * as Platform from "platform";
 import {environment} from "~/environments/environment";
 import {MlLoggerService} from "@manticore-labs/nativescript";
 import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.service";
-
+import { Auth0 } from 'nativescript-auth0';
 
 @Component({
     moduleId: module.id,
@@ -12,6 +12,8 @@ import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.servi
     templateUrl: "app.component.html"
 })
 export class AppComponent implements OnInit {
+
+    auth0;
     constructor(private readonly translate: TranslateService,
                 private readonly _log: MlLoggerService,
                 private readonly _eventosAplicacionService: EventosAplicacionService) {
@@ -33,7 +35,22 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('URL', environment.apiUrl)
+        this.auth0 = new Auth0('zkODfb91o5e34eilbELKyL0yOOrRjMxR', 'aso-arco-backend.auth0.com');
+
+        console.log('URL', environment.apiUrl);
+
+        this.auth0.webAuthentication({
+            scope: 'openid offline_access',
+            responseType:'token'
+        }).then((res) => {
+            console.log('No bota ni la verga');
+            this._log.l(JSON.stringify(res));
+            // goToHomeOrWhatevs();
+        }, (error) => {
+            this._log.l(error);
+
+            // console.log(error);
+        });
 
 
     }
