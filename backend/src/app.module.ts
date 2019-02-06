@@ -1,12 +1,20 @@
-import {Module} from '@nestjs/common';
+import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {TypeOrmModule} from '@nestjs/typeorm'
-import { EmpresaModule } from './empresa/empresa.module';
-import { SucursalModule } from './sucursal/sucursal.module';
+import {EmpresaModule} from './empresa/empresa.module';
+import {SucursalModule} from './sucursal/sucursal.module';
+import {EmpresaEntity} from "./empresa/empresa.entity";
+import {SucursalEntity} from "./sucursal/sucursal.entity";
+import {checkJwt} from '@manticore-labs/nest';
+import * as jwksRsa from 'jwks-rsa';
+import {NestEmitterModule} from "nest-emitter";
+import {EventEmitter} from 'events';
 
 @Module({
     imports: [
+        NestEmitterModule
+            .forRoot(new EventEmitter()),
         TypeOrmModule.forRoot({
             type: 'mysql',
             host: 'localhost',
@@ -15,17 +23,54 @@ import { SucursalModule } from './sucursal/sucursal.module';
             password: '12345678',
             database: 'nativescript',
             entities: [
+                EmpresaEntity,
+                SucursalEntity
+
+            ],
+            subscribers: [
 
             ],
             synchronize: true,
         }),
         EmpresaModule,
         SucursalModule,
-
-
     ],
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {
+export class AppModule implements NestModule {
+
+    configure(consumer: MiddlewareConsumer) {
+
+        // rutas a controlar si esta logeado
+
+        const routes = [
+            'sucursal*',
+            // 'empresa*'
+        ];
+        // Estas opciones deben de ir en el environmnet
+        const options = {
+            secret: jwksRsa.expressJwtSecret({
+                cache: true,
+                rateLimit: true,
+                jwksRequestsPerMinute: 5,
+                jwksUri: 'https://aso-arco-backend.auth0.com/.well-known/jwks.json',
+            }),
+            issuer: 'https://aso-arco-backend.auth0.com/',
+            algorithms: ['RS256']
+        };
+        const jwtMiddleware = checkJwt(options);
+
+        routes
+            .forEach(
+                (ruta) => {
+                    consumer
+                        .apply(
+                            jwtMiddleware
+                        )
+                        .forRoutes(ruta)
+                }
+            );
+
+    }
 }
