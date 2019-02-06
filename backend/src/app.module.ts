@@ -2,8 +2,8 @@ import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {TypeOrmModule} from '@nestjs/typeorm'
-import { EmpresaModule } from './empresa/empresa.module';
-import { SucursalModule } from './sucursal/sucursal.module';
+import {EmpresaModule} from './empresa/empresa.module';
+import {SucursalModule} from './sucursal/sucursal.module';
 import {checkJwt} from "./jwt-check";
 import {EmpresaEntity} from "./empresa/empresa.entity";
 import {SucursalEntity} from "./sucursal/sucursal.entity";
@@ -44,7 +44,7 @@ export class AppModule implements NestModule {
 
         routes
             .forEach(
-                (ruta)=>{
+                (ruta) => {
                     consumer
                         .apply(
                             checkJwt
