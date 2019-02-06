@@ -1,9 +1,12 @@
-import {Module} from '@nestjs/common';
+import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import {TypeOrmModule} from '@nestjs/typeorm'
 import { EmpresaModule } from './empresa/empresa.module';
 import { SucursalModule } from './sucursal/sucursal.module';
+import {checkJwt} from "./jwt-check";
+import {EmpresaEntity} from "./empresa/empresa.entity";
+import {SucursalEntity} from "./sucursal/sucursal.entity";
 
 @Module({
     imports: [
@@ -15,6 +18,8 @@ import { SucursalModule } from './sucursal/sucursal.module';
             password: '12345678',
             database: 'nativescript',
             entities: [
+                EmpresaEntity,
+                SucursalEntity
 
             ],
             synchronize: true,
@@ -27,5 +32,26 @@ import { SucursalModule } from './sucursal/sucursal.module';
     controllers: [AppController],
     providers: [AppService],
 })
-export class AppModule {
+export class AppModule implements NestModule {
+
+    configure(consumer: MiddlewareConsumer) {
+        const routes = [
+            'pene*',
+            'sexo*',
+            'sucursal*',
+            'empresa*'
+        ];
+
+        routes
+            .forEach(
+                (ruta)=>{
+                    consumer
+                        .apply(
+                            checkJwt
+                        )
+                        .forRoutes(ruta)
+                }
+            );
+
+    }
 }
