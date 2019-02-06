@@ -1,5 +1,5 @@
 import {PrincipalEntity} from '@manticore-labs/nest';
-import {Column, Entity, OneToMany} from 'typeorm';
+import {BeforeInsert, Column, Entity, OneToMany} from 'typeorm';
 import {SucursalEntity} from "../sucursal/sucursal.entity";
 
 @Entity('empresa')

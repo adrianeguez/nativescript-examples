@@ -4,12 +4,17 @@ import {AppService} from './app.service';
 import {TypeOrmModule} from '@nestjs/typeorm'
 import {EmpresaModule} from './empresa/empresa.module';
 import {SucursalModule} from './sucursal/sucursal.module';
-import {checkJwt} from "./jwt-check";
 import {EmpresaEntity} from "./empresa/empresa.entity";
 import {SucursalEntity} from "./sucursal/sucursal.entity";
+import {checkJwt} from '@manticore-labs/nest';
+import * as jwksRsa from 'jwks-rsa';
+import {NestEmitterModule} from "nest-emitter";
+import {EventEmitter} from 'events';
 
 @Module({
     imports: [
+        NestEmitterModule
+            .forRoot(new EventEmitter()),
         TypeOrmModule.forRoot({
             type: 'mysql',
             host: 'localhost',
@@ -22,12 +27,13 @@ import {SucursalEntity} from "./sucursal/sucursal.entity";
                 SucursalEntity
 
             ],
+            subscribers: [
+
+            ],
             synchronize: true,
         }),
         EmpresaModule,
         SucursalModule,
-
-
     ],
     controllers: [AppController],
     providers: [AppService],
@@ -35,19 +41,32 @@ import {SucursalEntity} from "./sucursal/sucursal.entity";
 export class AppModule implements NestModule {
 
     configure(consumer: MiddlewareConsumer) {
+
+        // rutas a controlar si esta logeado
+
         const routes = [
-            'pene*',
-            'sexo*',
             'sucursal*',
-            'empresa*'
+            // 'empresa*'
         ];
+        // Estas opciones deben de ir en el environmnet
+        const options = {
+            secret: jwksRsa.expressJwtSecret({
+                cache: true,
+                rateLimit: true,
+                jwksRequestsPerMinute: 5,
+                jwksUri: 'https://aso-arco-backend.auth0.com/.well-known/jwks.json',
+            }),
+            issuer: 'https://aso-arco-backend.auth0.com/',
+            algorithms: ['RS256']
+        };
+        const jwtMiddleware = checkJwt(options);
 
         routes
             .forEach(
                 (ruta) => {
                     consumer
                         .apply(
-                            checkJwt
+                            jwtMiddleware
                         )
                         .forRoutes(ruta)
                 }
