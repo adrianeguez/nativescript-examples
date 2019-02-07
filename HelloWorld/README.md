@@ -1,43 +1,116 @@
-# NativeScript with Angular Blank Template
-App templates help you jump start your native cross-platform apps with built-in UI elements and best practices. Save time writing boilerplate code over and over again when you create new apps.
+# Configure sitefinitysteve/nativescript-auth0 plugin in Angular
 
-## Quick Start
-Execute the following command to create an app from this template:
+## 1) Installation
 
-```
-tns create my-blank-ng --template tns-template-blank-ng
-```
-
-> Note: This command will create a new NativeScript app that uses the latest version of this template published to [npm] (https://www.npmjs.com/package/tns-template-blank-ng).
-
-If you want to create a new app that uses the source of the template from the `master` branch, you can execute the following:
+First we need to install the nativescript plugin:
 
 ```
-tns create my-blank-ng --template https://github.com/NativeScript/template-blank-ng
+$ tns plugin add nativescript-auth0
 ```
 
-**NB:** Please, have in mind that the master branch may refer to dependencies that are not on NPM yet!
+## 2) Configure Callback urls in `auth0.com`
 
-## Walkthrough
+Go to your Auth0.com backend and configure your CallbackUrls in your `Applications`:
 
-### Architecture
-The application component:
-- `app.component.ts` - sets up a page router outlet that lets you navigate between pages.
+`Allowed Callback URLs`
 
-There is a single blank component that sets up an empty page layout:
-- `/home`
+```
+org.nativescript.AppName://your-tenant.auth0.com/ios/org.nativescript.AppName/callback, 
+https://your-tenant.auth0.com/android/org.nativescript.AppName/callback
+```
 
-**Home** page has the following components:
-- `ActionBar` - It holds the title of the page.
-- `GridLayout` - The main page layout that should contains all the page content.
+## 3) Configuration for each platform:
 
-## Get Help
-The NativeScript framework has a vibrant community that can help when you run into problems.
+### iOS
 
-Try [joining the NativeScript community Slack](http://developer.telerik.com/wp-login.php?action=slack-invitation). The Slack channel is a great place to get help troubleshooting problems, as well as connect with other NativeScript developers.
+`App_resources/iOS/info.plist`
 
-If you have found an issue with this template, please report the problem in the [NativeScript repository](https://github.com/NativeScript/NativeScript/issues).
+```xml
+<!-- Info.plist -->
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleTypeRole</key>
+        <string>None</string>
+        <key>CFBundleURLName</key>
+        <string>auth0</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>YOUR_APP_BUNDLE_IDENTIFIER</string>
+        </array>
+    </dict>
+</array>
+```
+### Android
 
-## Contributing
+`App_resources/Android/src/main/AndroidManifest.xml`
 
-We love PRs, and accept them gladly. Feel free to propose changes and new ideas. We will review and discuss, so that they can be accepted and better integrated.
+```xml
+<activity
+    android:name="org.nativescript.auth0.RedirectActivity"
+    tools:node="replace">
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+
+        <data
+            android:host="YOUR_AUTH0_DOMAIN"
+            android:pathPrefix="/android/${applicationId}/callback"
+            android:scheme="https" />
+    </intent-filter>
+</activity>
+```
+For android to work in `Angular` you have to edit the `webpack.config.js` file:
+
+Add to these lines:
+
+```javascript
+ // Add your custom Activities, Services and other Android app components here.
+ const appComponents = [
+        "tns-core-modules/ui/frame",
+        "tns-core-modules/ui/frame/activity",
+    ];
+```
+
+This line:
+
+```javascript
+ // Add your custom Activities, Services and other Android app components here.
+ const appComponents = [
+        "tns-core-modules/ui/frame",
+        "tns-core-modules/ui/frame/activity",
+        "nativescript-auth0/android/provider/redirectActivity"
+    ];
+```
+
+
+# 4) Usage
+
+Refer to the oficial [docs](https://github.com/sitefinitysteve/nativescript-auth0), here a fragment:
+
+## Usage
+
+Import Auth0 in a shared helper or something
+
+```ts
+import { Auth0 } from 'nativescript-auth0';
+```
+
+Create your Auth0 object
+```ts
+    this.auth0 = new Auth0('<your clientid>', '<your domain>');
+```
+
+Start the web authentication flow, returns a promise
+```ts
+    /// Promise returns credentials object
+    this.auth0.webAuthentication({
+        scope: 'openid offline_access'
+    }).then((res) => {
+        // goToHomeOrWhatevs(); 
+    }, (error) => {
+        // console.log(error);
+    });
+```
