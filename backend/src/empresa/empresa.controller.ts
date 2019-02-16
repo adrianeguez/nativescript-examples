@@ -11,8 +11,7 @@ import {SucursalService} from "../sucursal/sucursal.service";
 export class EmpresaController extends PrincipalController<
     EmpresaCreateDto,
     EmpresaUpdateDto> {
-    constructor(private readonly _empresaService: EmpresaService,
-                public readonly _sucursalService: SucursalService) {
+    constructor(private readonly _empresaService: EmpresaService) {
         super( politicasEmpresa, // politicas de seguridad
         _empresaService, // servicio
             { // Dto

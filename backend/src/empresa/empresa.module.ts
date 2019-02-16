@@ -3,8 +3,6 @@ import {EmpresaController} from "./empresa.controller";
 import {EmpresaService} from "./empresa.service";
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {EmpresaEntity} from "./empresa.entity";
-import {SucursalModule} from "../sucursal/sucursal.module";
-import {EmpresaSubscriber} from "./empresa.subscriber";
 
 @Module({
     imports: [
@@ -12,12 +10,10 @@ import {EmpresaSubscriber} from "./empresa.subscriber";
     ],
     controllers: [EmpresaController],
     providers: [
-        EmpresaService,
-        EmpresaSubscriber
+        EmpresaService
     ],
     exports: [
-        EmpresaService,
-        EmpresaSubscriber
+        EmpresaService
     ],
 })
 export class EmpresaModule {

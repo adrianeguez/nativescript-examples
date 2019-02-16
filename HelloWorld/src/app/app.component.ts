@@ -5,7 +5,6 @@ import {environment} from "~/environments/environment";
 import {MlLoggerService} from "@manticore-labs/nativescript";
 import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.service";
 import { Auth0 } from 'nativescript-auth0';
-import {ios} from "tns-core-modules/application";
 
 @Component({
     moduleId: module.id,

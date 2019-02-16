@@ -1,24 +1,20 @@
 import {MiddlewareConsumer, Module, NestModule} from '@nestjs/common';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
-import {TypeOrmModule} from '@nestjs/typeorm'
+import {TypeOrmModule} from '@nestjs/typeorm';
 import {EmpresaModule} from './empresa/empresa.module';
-import {SucursalModule} from './sucursal/sucursal.module';
-import {EmpresaEntity} from "./empresa/empresa.entity";
-import {SucursalEntity} from "./sucursal/sucursal.entity";
+import {EmpresaEntity} from './empresa/empresa.entity';
 import {checkJwt} from '@manticore-labs/nest';
 import * as jwksRsa from 'jwks-rsa';
-import {NestEmitterModule} from "nest-emitter";
-import {EventEmitter} from 'events';
+import {SucursalEntity} from "./sucursal/sucursal.entity";
+import {SucursalModule} from "./sucursal/sucursal.module";
 
 @Module({
     imports: [
-        NestEmitterModule
-            .forRoot(new EventEmitter()),
         TypeOrmModule.forRoot({
             type: 'mysql',
             host: 'localhost',
-            port: 32769,
+            port: 32777,
             username: 'adrian',
             password: '12345678',
             database: 'nativescript',
@@ -45,7 +41,7 @@ export class AppModule implements NestModule {
         // rutas a controlar si esta logeado
 
         const routes = [
-            'sucursal*',
+            // 'sucursal*',
             // 'empresa*'
         ];
         // Estas opciones deben de ir en el environmnet
@@ -57,7 +53,7 @@ export class AppModule implements NestModule {
                 jwksUri: 'https://aso-arco-backend.auth0.com/.well-known/jwks.json',
             }),
             issuer: 'https://aso-arco-backend.auth0.com/',
-            algorithms: ['RS256']
+            algorithms: ['RS256'],
         };
         const jwtMiddleware = checkJwt(options);
 
@@ -66,10 +62,10 @@ export class AppModule implements NestModule {
                 (ruta) => {
                     consumer
                         .apply(
-                            jwtMiddleware
+                            jwtMiddleware,
                         )
-                        .forRoutes(ruta)
-                }
+                        .forRoutes(ruta);
+                },
             );
 
     }
