@@ -5,6 +5,7 @@ import {environment} from "~/environments/environment";
 import {MlLoggerService} from "@manticore-labs/nativescript";
 import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.service";
 import {Auth0} from 'nativescript-auth0';
+var SecureStorage = require("nativescript-secure-storage").SecureStorage;
 
 @Component({
     moduleId: module.id,
@@ -36,7 +37,32 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.auth0 = new Auth0('zkODfb91o5e34eilbELKyL0yOOrRjMxR', 'aso-arco-backend.auth0.com');
+        // this.auth0 = new Auth0('zkODfb91o5e34eilbELKyL0yOOrRjMxR', 'aso-arco-backend.auth0.com');
+
+        this._eventosAplicacionService.resumeEvent
+            .subscribe(
+                ()=>{
+                    this._log.i("En Resumen");
+                    var a = new SecureStorage()
+                    a.set({
+                        key: "foo",
+                        value: "I was set at " + new Date()
+                    }).then(
+                        function(success) {
+                            console.log("Successfully set a value? " + success);
+
+                            a.get({
+                                key: "foo"
+                            }).then(
+                                function(value) {
+                                    console.log("Got value: " + value);
+                                }
+                            );
+                        }
+                    );
+                }
+            );
+
     }
 
     onSelectedIndexChanged(a) {
