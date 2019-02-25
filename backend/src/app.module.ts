@@ -16,12 +16,12 @@ import {EventEmitter} from 'events';
         NestEmitterModule
             .forRoot(new EventEmitter()),
         TypeOrmModule.forRoot({
-            type: 'mysql',
-            host: 'localhost',
-            port: 32769,
-            username: 'adrian',
+            type: 'postgres',
+            host: 'ec2-23-23-184-76.compute-1.amazonaws.com',
+            port: 5432,
+            username: 'gxokuyxuwpfals',
             password: '12345678',
-            database: 'nativescript',
+            database: 'dcn0kl3qbqnc28',
             entities: [
                 EmpresaEntity,
                 SucursalEntity
@@ -31,6 +31,7 @@ import {EventEmitter} from 'events';
 
             ],
             synchronize: true,
+
         }),
         EmpresaModule,
         SucursalModule,
