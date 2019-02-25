@@ -9,6 +9,7 @@ import {NativeScriptCommonModule} from "nativescript-angular/common";
 import {MlLoggerModule, translateHttpLoader} from "@manticore-labs/nativescript";
 import {environment} from "~/environments/environment";
 import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.service";
+import {StoreModule} from '@ngrx/store';
 
 @NgModule({
     bootstrap: [
@@ -30,7 +31,12 @@ import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.servi
         ),
         MlLoggerModule.forRoot({
             produccion: environment.production
-        })
+        }),
+        StoreModule.forRoot(
+            {
+
+            }
+        )
     ],
     providers:[
         EventosAplicacionService,
