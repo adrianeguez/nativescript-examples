@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewContainerRef} from "@angular/core";
 import {TranslateService} from "@ngx-translate/core";
 import * as Platform from "platform";
 import {MlLoggerService} from "@manticore-labs/nativescript";
@@ -8,6 +8,8 @@ import {CAMBIAR_MOSTRAR_LABEL} from '~/app/home/state/actions/cambiar-mostrar-la
 import {Subscription} from 'rxjs/index';
 import {State} from '~/app/interface/state';
 import {HomeState} from '~/app/home/state/home.state';
+import {ModalDialogOptions, ModalDialogService, RouterExtensions} from "nativescript-angular";
+import {RutaModalUnoComponent} from "~/app/home/rutas/ruta-modal-uno/ruta-modal-uno.component";
 
 @Component({
     selector: "Home",
@@ -30,7 +32,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     constructor(private readonly translate: TranslateService,
                 private readonly _log: MlLoggerService,
-                private readonly _store: Store<State>) {
+                private readonly _store: Store<State>,
+                private routerExtensions: RouterExtensions,
+                private modalService: ModalDialogService,
+                private vcRef: ViewContainerRef) {
         // this language will be used as a fallback when a translation isn't found in the current language
         translate.setDefaultLang('en');
         console.log('Platform ', Platform.device.language);
@@ -96,5 +101,62 @@ export class HomeComponent implements OnInit, OnDestroy {
             )
 
 
+    }
+
+    irRutaUno() {
+        console.log(this.routerExtensions.router.url);
+        this.routerExtensions.navigate(
+            [
+                '/',
+                {
+                    outlets: {
+                        'home': ['home', 'ruta-uno'],
+                    }
+                }
+            ],
+            {
+                // preserveFragment: false,
+                transition: {
+                    name: 'slideLeft',
+                }
+            },
+        )
+    }
+
+    irRutaDos() {
+        console.log(this.routerExtensions.router.url);
+        this.routerExtensions.navigate(
+            [
+                '/',
+                {
+                    outlets: {
+                        'home': ['home', 'ruta-dos'],
+                    }
+                }
+            ],
+            {
+                // preserveFragment: false,
+                transition: {
+                    name: 'slideLeft',
+                }
+            },
+        )
+    }
+
+    abrirModal(): void {
+        const options: ModalDialogOptions = {
+            fullscreen: false,
+            viewContainerRef: this.vcRef,
+            context: {
+                data: 'hola'
+            }
+        };
+        this.modalService
+            .showModal(RutaModalUnoComponent, options)
+            .then(
+                (datos) => {
+                    this._log.i("SE envio esto:", datos)
+                }
+            );
     }
 }

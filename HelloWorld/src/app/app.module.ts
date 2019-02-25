@@ -10,6 +10,11 @@ import {MlLoggerModule, translateHttpLoader} from "@manticore-labs/nativescript"
 import {environment} from "~/environments/environment";
 import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.service";
 import {StoreModule} from '@ngrx/store';
+import { RutaHomeComponent } from './rutas/ruta-home/ruta-home.component';
+import { RutaSearchComponent } from './rutas/ruta-search/ruta-search.component';
+import { RutaBrowseComponent } from './rutas/ruta-browse/ruta-browse.component';
+import { RutaFeaturedComponent } from './rutas/ruta-featured/ruta-featured.component';
+import {RutaUnoComponent} from "~/app/home/rutas/ruta-uno/ruta-uno.component";
 
 @NgModule({
     bootstrap: [
@@ -42,7 +47,12 @@ import {StoreModule} from '@ngrx/store';
         EventosAplicacionService,
     ],
     declarations: [
-        AppComponent
+        AppComponent,
+        RutaHomeComponent,
+        RutaSearchComponent,
+        RutaBrowseComponent,
+        RutaFeaturedComponent,
+        // RutaUnoComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

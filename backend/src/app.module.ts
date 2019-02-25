@@ -14,14 +14,16 @@ import {SucursalModule} from "./sucursal/sucursal.module";
         TypeOrmModule.forRoot({
             type: 'mysql',
             host: 'localhost',
-            port: 32777,
+            port: 32769,
             username: 'adrian',
+            password: '12345678',
+            database: 'nativescript',
             // type: 'postgres',
             // host: 'ec2-23-23-184-76.compute-1.amazonaws.com',
             // port: 5432,
-            username: 'gxokuyxuwpfals',
-            password: '12345678',
-            database: 'dcn0kl3qbqnc28',
+            // username: 'gxokuyxuwpfals',
+            // password: '12345678',
+            // database: 'dcn0kl3qbqnc28',
             entities: [
                 EmpresaEntity,
                 SucursalEntity

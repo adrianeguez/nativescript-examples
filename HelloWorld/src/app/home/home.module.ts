@@ -6,6 +6,9 @@ import {HomeComponent} from "./home.component";
 import {TranslateModule} from "@ngx-translate/core";
 import {StoreModule} from '@ngrx/store';
 import {homeReducer} from '~/app/home/state/home.reducer';
+import { RutaUnoComponent } from './rutas/ruta-uno/ruta-uno.component';
+import { RutaDosComponent } from './rutas/ruta-dos/ruta-dos.component';
+import { RutaModalUnoComponent } from './rutas/ruta-modal-uno/ruta-modal-uno.component';
 
 @NgModule({
     imports: [
@@ -17,11 +20,17 @@ import {homeReducer} from '~/app/home/state/home.reducer';
         )
     ],
     declarations: [
-        HomeComponent
+        HomeComponent,
+        RutaUnoComponent,
+        RutaDosComponent,
+        RutaModalUnoComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
-    ]
+    ],
+    entryComponents: [
+        RutaModalUnoComponent
+    ],
 })
 export class HomeModule {
 }

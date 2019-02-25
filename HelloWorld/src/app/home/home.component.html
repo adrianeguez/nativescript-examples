@@ -2,9 +2,12 @@
     <Label class="action-bar-title" [text]="'aplicacion.nombre' | translate"></Label>
 </ActionBar>
 
-<StackLayout orientation="vertical" width="210" height="210" backgroundColor="lightgray">
+<StackLayout orientation="vertical" width="210" height="410" backgroundColor="lightgray">
     <Label class="action-bar-title" text="HOLAA" *ngIf="activo"></Label>
     <Button class="btn btn-primary btn-active" id="buttonMostrarLabel" text="Mostrar label"
             (tap)="mostrarLabel($event)"></Button>
     <Button class="btn btn-primary btn-active" id="buttonLogin" text="Tap me!" (tap)="login($event)"></Button>
+    <Button class="btn btn-primary btn-active" id="buttonRutaUno" text="Ruta uno" (tap)="irRutaUno($event)"></Button>
+    <Button class="btn btn-primary btn-active" id="buttonRutaDos" text="Ruta dos" (tap)="irRutaDos($event)"></Button>
+    <Button class="btn btn-primary btn-active" id="buttonRutaModalUno" text="Ruta Modal Uno" (tap)="abrirModal($event)"></Button>
 </StackLayout>

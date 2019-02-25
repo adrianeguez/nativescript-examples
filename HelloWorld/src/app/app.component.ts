@@ -4,7 +4,7 @@ import * as Platform from "platform";
 import {environment} from "~/environments/environment";
 import {MlLoggerService} from "@manticore-labs/nativescript";
 import {EventosAplicacionService} from "~/app/servicios/eventos-aplicacion.service";
-import { Auth0 } from 'nativescript-auth0';
+import {Auth0} from 'nativescript-auth0';
 
 @Component({
     moduleId: module.id,
@@ -14,6 +14,7 @@ import { Auth0 } from 'nativescript-auth0';
 export class AppComponent implements OnInit {
 
     auth0;
+
     constructor(private readonly translate: TranslateService,
                 private readonly _log: MlLoggerService,
                 private readonly _eventosAplicacionService: EventosAplicacionService) {
@@ -36,7 +37,9 @@ export class AppComponent implements OnInit {
 
     ngOnInit() {
         this.auth0 = new Auth0('zkODfb91o5e34eilbELKyL0yOOrRjMxR', 'aso-arco-backend.auth0.com');
+    }
 
-
+    onSelectedIndexChanged(a) {
+        this._log.l('LOG: Cambio', a);
     }
 }

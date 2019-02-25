@@ -1,5 +1,12 @@
 
-<page-router-outlet></page-router-outlet>
-<!--<router-outlet></router-outlet>-->
+<!--<page-router-outlet></page-router-outlet>-->
+
+
+<TabView androidTabsPosition="bottom" selectedIndex="3" (selectedIndexChanged)="onSelectedIndexChanged($event)">
+    <page-router-outlet *tabItem="{title: 'Featured'}" name="featured"></page-router-outlet>
+    <page-router-outlet *tabItem="{title: 'Browse'}" name="browse"></page-router-outlet>
+    <page-router-outlet *tabItem="{title: 'Search'}" name="search"></page-router-outlet>
+    <page-router-outlet *tabItem="{title: 'Home'}" name="home"></page-router-outlet>
+</TabView>
 
 
