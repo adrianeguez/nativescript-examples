@@ -44,20 +44,21 @@ export class AppComponent implements OnInit {
                 ()=>{
                     this._log.i("En Resumen");
                     var a = new SecureStorage()
+
+                    a.get({
+                        key: "foo"
+                    }).then(
+                        function(value) {
+                            console.log("Got value: " + value);
+                        }
+                    );
+
                     a.set({
                         key: "foo",
                         value: "I was set at " + new Date()
                     }).then(
                         function(success) {
                             console.log("Successfully set a value? " + success);
-
-                            a.get({
-                                key: "foo"
-                            }).then(
-                                function(value) {
-                                    console.log("Got value: " + value);
-                                }
-                            );
                         }
                     );
                 }
